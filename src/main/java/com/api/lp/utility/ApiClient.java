@@ -21,6 +21,7 @@ public class ApiClient {
 		try {
 			if (reqType.equalsIgnoreCase(API_CALL_TYPE_GET)) {
 
+				// Using this only beacause of ssl issue 
 				 SSLContext sslContext = SSLContext.getInstance("TLS");
 		            sslContext.init(null, new TrustManager[]{new X509TrustManager() {
 		                @Override
@@ -37,7 +38,7 @@ public class ApiClient {
 		                    .sslContext(sslContext)
 		                    .build();
 		            
-			//	HttpClient httpClient = HttpClient.newHttpClient();
+//				HttpClient httpClient = HttpClient.newHttpClient();
 				HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
 				HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 				apiResponse = response.body();
