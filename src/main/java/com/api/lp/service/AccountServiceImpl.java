@@ -1,11 +1,15 @@
 package com.api.lp.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.api.lp.model.EmiDetailEntity;
 import com.api.lp.model.LoanAccount;
 import com.api.lp.repo.LoanAccountRepo;
 import com.api.lp.response.AccountResponseVo;
@@ -17,7 +21,7 @@ import com.fasterxml.jackson.databind.*;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-	static Logger logger = LogManager.getLogger(AccountServiceImpl.class);
+	private static Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 	
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -43,11 +47,16 @@ public class AccountServiceImpl implements AccountService {
 			LoanAccount loanEmiResponse = objectMapper.readValue(loanApiresponse, LoanAccount.class);
 			loanAccountRepo.save(loanEmiResponse);
 
+			List<EmiDetailEntity> dueEmis = loanEmiResponse.getEmiDetails().stream()
+			        .filter(emi -> Boolean.TRUE.equals(emi.getDueStatus())) // safe null check
+			        .collect(Collectors.toList());
+			
+			
 			//BL
 			AccountResponseVo accountResponseVo = new AccountResponseVo();
 			accountResponseVo.setLoanAccountNumber(loanEmiResponse.getLoanAccountNumber());
-			accountResponseVo.setEmiAmount("1000");
-			accountResponseVo.setDueDate("Amount");
+			accountResponseVo.setEmiAmount(1000l);
+			accountResponseVo.setDueDate("March 2021");
 
 			return new ApiResponse<>("Data successfully fetched", accountResponseVo, HttpStatus.OK.value());
 

@@ -4,7 +4,7 @@ public class AccountResponseVo {
 
 	private String loanAccountNumber;
 	private String dueDate;
-	private String emiAmount;
+	private Long emiAmount;
 
 	
 	public String getLoanAccountNumber() {
@@ -23,11 +23,11 @@ public class AccountResponseVo {
 		this.dueDate = dueDate;
 	}
 
-	public String getEmiAmount() {
+	public Long getEmiAmount() {
 		return emiAmount;
 	}
 
-	public void setEmiAmount(String emiAmount) {
+	public void setEmiAmount(Long emiAmount) {
 		this.emiAmount = emiAmount;
 	}
 

@@ -9,11 +9,18 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ApiClient {
+
+	private static Logger logger = LogManager.getLogger(ApiClient.class);
 
 	public static final String API_CALL_ACCOUNT_URL = "https://demo9993930.mockable.io/loanaccount/";
 	public static final String API_CALL_TYPE_GET = "GET";
 
+	
+	
 	public static String apiCall(String reqType, String url, String reqString) {
 
 		String apiResponse = null;
@@ -46,7 +53,7 @@ public class ApiClient {
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to call external API", e);
+			logger.error(e.getMessage());
 		}
 
 		return apiResponse;
